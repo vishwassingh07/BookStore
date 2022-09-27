@@ -112,5 +112,39 @@ namespace RepositoryLayer.Services
 
             return tokenHandler.WriteToken(token);
         }
+        public string ForgotPassword(string Email)
+        {
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spForgotPassword", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@Email", Email);
+                    SqlDataReader reader = command.ExecuteReader();
+                    GetAllUserModel model = new GetAllUserModel();
+                    if (reader.Read())
+                    {
+                        model.Email = Convert.ToString(reader["Email"] == DBNull.Value ? default : reader["Email"]);
+                        model.UserId = Convert.ToInt32(reader["UserId"] == DBNull.Value ? default : reader["UserId"]);
+                    }
+                    var token = GenerateSecurityToken(model.Email, model.UserId);
+                    MSMQModel msmq = new MSMQModel();
+                    msmq.sendData2Queue(token);
+                    return "Mail Sent";
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

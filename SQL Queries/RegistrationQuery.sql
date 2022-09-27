@@ -24,3 +24,16 @@ Begin
 	Insert UserInfo
 	Values (@FullName, @Email, @Password, @MobileNumber)
 End;
+
+
+------------ Stored Procedure For User Login ----------------
+
+Create Procedure spUserLogin
+(
+@Email varchar(100),
+@Password varchar(100)
+)
+As
+Begin
+	Select * From UserInfo Where Email = @Email And Password = @Password
+End

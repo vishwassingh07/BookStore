@@ -28,7 +28,7 @@ namespace CommonLayer.UserModel
         {
             var msg = messageQ.EndReceive(e.AsyncResult);
             string token = msg.Body.ToString();
-            string subject = "FundoNotes Token Link";
+            string subject = "JWT Token Link";
             string body = token;
 
 
