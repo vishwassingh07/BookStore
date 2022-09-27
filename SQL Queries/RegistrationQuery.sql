@@ -37,3 +37,14 @@ As
 Begin
 	Select * From UserInfo Where Email = @Email And Password = @Password
 End
+
+------------- Stored Proc
+Create Procedure spForgotPassword
+(
+@Email varchar(100)
+)
+As
+Begin
+	Update UserInfo Set Password = 'Null' Where  Email = @Email;
+	Select * From UserInfo Where Email = @Email;
+End
