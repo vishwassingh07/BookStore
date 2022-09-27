@@ -10,5 +10,6 @@ namespace BusinessLayer.Interfaces
         public UserDetailsModel Register(UserDetailsModel userModel);
         public string UserLogin(UserLoginModel loginModel);
         public string ForgotPassword(string Email);
+        public bool ResetPassword(string Email, string NewPassword, string ConfirmPassword);
     }
 }

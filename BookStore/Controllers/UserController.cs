@@ -1,6 +1,8 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.UserModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BookStore.Controllers
 {
@@ -68,6 +70,28 @@ namespace BookStore.Controllers
                 else
                 {
                     return BadRequest(new { success = false, message = "Reset Link Could Not Be Generated" });
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                return BadRequest(new { Success = false, message = ex.Message });
+            }
+        }
+        [Authorize]
+        [HttpPost("ResetPassword")]
+        public ActionResult ResetPassword(string NewPassword, string ConfirmPassword)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                if(userBL.ResetPassword(email, NewPassword, ConfirmPassword))
+                {
+                    return Ok(new { success = true, message = "Password Reset Successfully" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Password Could Not Be Reset" });
                 }
             }
             catch (System.Exception ex)
