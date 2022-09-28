@@ -80,7 +80,6 @@ namespace RepositoryLayer.Services
                     }
                     var token = GenerateSecurityToken(model.Email, model.UserId);
                     return token;
-
                 }
             }
             catch (Exception)
