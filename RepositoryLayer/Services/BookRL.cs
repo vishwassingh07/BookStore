@@ -56,5 +56,45 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public List<BookResponseModel> GetAllBooks()
+        {
+            List<BookResponseModel> lisOfBooks = new List<BookResponseModel>();
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spGetAllBook", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        BookResponseModel bookModel = new BookResponseModel();
+                        bookModel.BookId = reader["BookId"] == DBNull.Value ? default : reader.GetInt32("BookId");
+                        bookModel.BookName = reader["BookName"] == DBNull.Value ? default : reader.GetString("BookName");
+                        bookModel.Author = reader["Author"] == DBNull.Value ? default : reader.GetString("Author");
+                        bookModel.Description = reader["Description"] == DBNull.Value ? default : reader.GetString("Description");
+                        bookModel.Quantity = reader["Quantity"] == DBNull.Value ? default : reader.GetInt32("Quantity");
+                        bookModel.Price = (reader["Price"] == DBNull.Value ? default : reader.GetDecimal("Price"));
+                        bookModel.DiscountedPrice = (reader["DiscountedPrice"] == DBNull.Value ? default : reader.GetDecimal("DiscountedPrice"));
+                        bookModel.Rating = (reader["Rating"] == DBNull.Value ? default : reader.GetDouble("Rating"));
+                        bookModel.RatingCount = reader["RatingCount"] == DBNull.Value ? default : reader.GetInt32("RatingCount");
+                        bookModel.BookImage = reader["BookImage"] == DBNull.Value ? default : reader.GetString("BookImage");
+                        lisOfBooks.Add(bookModel);
+                    };
+                    return lisOfBooks;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

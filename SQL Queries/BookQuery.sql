@@ -32,3 +32,11 @@ Begin
 	Insert Into BookInfo(BookName, Author, Description, Quantity, Price, DiscountedPrice, Rating, RatingCount, BookImage)
 	Values(@BookName, @Author, @Description, @Quantity, @Price, @DiscountedPrice, @Rating, @RatingCount, @BookImage)
 End
+
+------------- Stored Procedur For Retrieving Books -------------
+
+Create Procedure spGetAllBook
+As
+Begin
+	Select * From BookInfo
+End
