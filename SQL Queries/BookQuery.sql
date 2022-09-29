@@ -63,3 +63,13 @@ Begin
 	Where BookId=@BookId
 	Select * From BookInfo Where BookId=@BookId
 End
+
+---------------- Stored Procedure For Deleting Book -----------
+Create Procedure spDeleteBook
+(
+@BookId int
+)
+As
+Begin
+	Delete From BookInfo Where BookId=@BookId
+End

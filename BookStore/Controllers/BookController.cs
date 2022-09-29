@@ -80,5 +80,27 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [Authorize(Roles = Role.Admin)]
+        [HttpDelete("DeleteBook")]
+        public ActionResult DeleteBook(int BookId)
+        {
+            try
+            {
+                var result = bookBL.DeleteBook(BookId);
+                if(result != null)
+                {
+                    return this.Ok(new { success = true, message = "Books Deleted Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Books Could Not Be Deleted" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
