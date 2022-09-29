@@ -96,5 +96,46 @@ namespace RepositoryLayer.Services
                 connection.Close();
             }
         }
+        public BookResponseModel UpdateBook(int BookId, BookResponseModel bookModel)
+        {
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spUpdateBook", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@BookId", bookModel.BookId);
+                    command.Parameters.AddWithValue("@BookName", bookModel.BookName);
+                    command.Parameters.AddWithValue("@Author", bookModel.Author);
+                    command.Parameters.AddWithValue("@Description", bookModel.Description);
+                    command.Parameters.AddWithValue("@Quantity", bookModel.Quantity);
+                    command.Parameters.AddWithValue("@Price", bookModel.Price);
+                    command.Parameters.AddWithValue("@DiscountedPrice", bookModel.DiscountedPrice);
+                    command.Parameters.AddWithValue("@Rating", bookModel.Rating);
+                    command.Parameters.AddWithValue("@RatingCount", bookModel.RatingCount);
+                    command.Parameters.AddWithValue("@BookImage", bookModel.BookImage);
+
+                    var result = command.ExecuteNonQuery();
+                    if(result != 0)
+                    {
+                        return bookModel;
+                    }
+                    else
+                    {
+                        return null;    
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

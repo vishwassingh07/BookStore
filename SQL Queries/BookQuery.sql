@@ -40,3 +40,26 @@ As
 Begin
 	Select * From BookInfo
 End
+
+------------- Stored Procedure For Updating Book -----------
+
+Create Procedure spUpdateBook
+(
+@BookId int,
+@BookName varchar(100),
+@Author varchar(200),
+@Description varchar(max),
+@Quantity int,
+@Price money,
+@DiscountedPrice money,
+@Rating float,
+@RatingCount int,
+@BookImage varchar
+)
+As
+Begin
+	Update BookInfo Set BookName=@BookName,Author=@Author,Description=@Description,Quantity=@Quantity,Price=@Price,
+	DiscountedPrice=@DiscountedPrice,Rating=@Rating,RatingCount=@RatingCount,@BookImage=@BookImage
+	Where BookId=@BookId
+	Select * From BookInfo Where BookId=@BookId
+End
