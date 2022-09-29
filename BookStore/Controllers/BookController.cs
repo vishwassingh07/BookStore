@@ -102,5 +102,27 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpGet("GetBookById")]
+        public ActionResult RetriveByBookId(int BookId)
+        {
+            try
+            {
+                var result = bookBL.RetrieveBookById(BookId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Book Details Fetched Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Book Details Could Not Be Fetched" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
