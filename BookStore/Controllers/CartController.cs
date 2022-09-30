@@ -88,5 +88,29 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpGet("RetrieveCartItems")]
+        public ActionResult GetAllCartItems()
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = cartBL.GetAllCartItems(UserID);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, Message = "Cart Items Fetched Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, Message = "Cart Items Could Not Be Fetched" });
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

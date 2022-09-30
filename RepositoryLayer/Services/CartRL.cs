@@ -113,5 +113,44 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public List<CartRetrieveModel> GetAllCartItems(int UserId)
+        {
+            List<CartRetrieveModel> cartList = new List<CartRetrieveModel>();
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spRetrieveCart", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserId", UserId);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        CartRetrieveModel retrieveModel = new CartRetrieveModel();
+                        retrieveModel.CartId = reader["CartId"] == DBNull.Value ? default : reader.GetInt32("CartId");
+                        retrieveModel.UserId = reader["UserId"] == DBNull.Value ? default : reader.GetInt32("UserId");
+                        retrieveModel.BookId = reader["BookId"] == DBNull.Value ? default : reader.GetInt32("BookId");
+                        retrieveModel.BookName = reader["BookName"] == DBNull.Value ? default : reader.GetString("BookName");
+                        retrieveModel.Author = reader["Author"] == DBNull.Value ? default : reader.GetString("Author");
+                        retrieveModel.BookQuantity = reader["BookQuantity"] == DBNull.Value ? default : reader.GetInt32("BookQuantity");
+                        retrieveModel.Price = reader["Price"] == DBNull.Value ? default : reader.GetDecimal("Price");
+                        retrieveModel.DiscountedPrice = (reader["DiscountedPrice"] == DBNull.Value ? default : reader.GetDecimal("DiscountedPrice"));
+                        retrieveModel.BookImage = reader["BookImage"] == DBNull.Value ? default : reader.GetString("BookImage");
+                        cartList.Add(retrieveModel);
+                    }
+                    return cartList;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

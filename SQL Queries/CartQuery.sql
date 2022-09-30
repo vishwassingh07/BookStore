@@ -42,3 +42,17 @@ As
 Begin
 	Update CartInfo Set BookQuantity = @BookQuantity Where CartId=@CartId and UserId=@UserId
 End
+
+----------- Stored Procedure For Retrieving Cart ----------\
+Create Procedure spRetrieveCart
+(
+@UserId int
+)
+As
+Begin
+	Select CartInfo.CartId, CartInfo.BookId, CartInfo.BookQuantity, CartInfo.UserId,
+	BookInfo.BookName, BookInfo.Author, BookInfo.Description, BookInfo.Price, BookInfo.DiscountedPrice,
+    BookInfo.BookImage
+	From CartInfo Inner Join BookInfo ON CartInfo.BookId = BookInfo.BookId
+	Where CartInfo.UserId = @UserId
+End
