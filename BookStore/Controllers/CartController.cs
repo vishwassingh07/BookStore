@@ -40,5 +40,29 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpPost("DeleteFromCart")]
+        public ActionResult DeleteFromCart(int CartId)
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = cartBL.DeleteFromCart(CartId, UserID);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, Message = "Book Deleted From Cart Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, Message = "Book Could Not Deleted From Cart" });
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

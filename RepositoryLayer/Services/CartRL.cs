@@ -50,5 +50,36 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public string DeleteFromCart(int CartId, int UserId)
+        {
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("spDeleteFromCart", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@CartId", CartId);
+                    command.Parameters.AddWithValue("@UserId", UserId);
+
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+                    if (result != 0)
+                    {
+                        return "Succsfully Deleted From Cart";
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

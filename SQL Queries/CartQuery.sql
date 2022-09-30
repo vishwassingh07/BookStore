@@ -19,3 +19,14 @@ Begin
 	Insert Into CartInfo(BookId, UserId, BookQuantity)
 	Values(@BookId, @UserId, @BookQuantity)
 End
+
+----------- Stored Procedure For Deleting From Cart ----------
+Create Procedure spDeleteFromCart
+(
+@CartId int,
+@UserId int
+)
+As
+Begin
+	Delete From CartInfo Where CartId = @CartId and UserId = @UserId
+End

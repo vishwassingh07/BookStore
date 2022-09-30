@@ -8,5 +8,6 @@ namespace RepositoryLayer.Interfaces
     public interface ICartRL
     {
         public string AddToCart(int UserId, CartPostModel cartModel);
+        public string DeleteFromCart(int CartId, int UserId);
     }
 }
