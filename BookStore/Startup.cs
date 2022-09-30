@@ -60,6 +60,10 @@ namespace BookStore
             services.AddTransient<IAdminBL, AdminBL>();
             services.AddTransient<IBookRL, BookRL>();
             services.AddTransient<IBookBL, BookBL>();
+            services.AddTransient<IWishListBL, WishListBL>();
+            services.AddTransient<IWishListRL, WishListRL>();
+
+
 
 
             services.AddSwaggerGen();
