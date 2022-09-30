@@ -16,3 +16,14 @@ Begin
 	Insert Into WishList(UserId, BookId)
 	Values(@UserId, @BookId)
 End
+
+-------- Stored Procedure For Deleting From WishList -----------
+Create Procedure spDeleteFromWishList
+(
+@UserId int,
+@WishListId int
+)
+As
+Begin
+	Delete From WishList Where UserId = @UserId and WishListId = @WishListId
+End

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.WishListModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace BookStore.Controllers
         {
             this.wishListBL = wishListBL;
         }
+        [Authorize]
         [HttpPost("AddToWishList")]
         public ActionResult AddToWishList(WishListPostModel postModel)
         {
@@ -35,6 +37,29 @@ namespace BookStore.Controllers
 
             }
             catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+        [Authorize]
+        [HttpDelete("DeleteFromWishList")]
+        public ActionResult DeleteFromWishList(int WishListId)
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = wishListBL.DeleteFromWishList(UserID, WishListId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Deleted From WishList Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Could Not Be Deleted From WishList" });
+                }
+            }
+            catch (Exception)
             {
 
                 throw;
