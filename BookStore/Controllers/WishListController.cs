@@ -65,5 +65,27 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [HttpGet("GetWishListedItems")]
+        public ActionResult GetWishListedItem()
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = wishListBL.GetWishListByUserId(UserID);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "WishList Fetched Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "WishList Could Not Be Fetched" });
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

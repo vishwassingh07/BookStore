@@ -38,5 +38,17 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public List<WishListResponseModel> GetWishListByUserId(int UserId)
+        {
+            try
+            {
+                return wishListRL.GetWishListByUserId(UserId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -27,3 +27,17 @@ As
 Begin
 	Delete From WishList Where UserId = @UserId and WishListId = @WishListId
 End
+
+------------ Stored Procedure For Get All WishListed Items --------
+Create Procedure spGetWishList
+(
+@UserId int
+)
+As
+Begin
+	Select WishList.WishListId, WishList.BookId, WishList.UserId,
+	BookInfo.BookName, BookInfo.Author, BookInfo.Description, BookInfo.Quantity, BookInfo.Price, BookInfo.DiscountedPrice,
+	BookInfo.Rating, BookInfo.RatingCount, BookInfo.BookImage
+	From WishList Inner Join BookInfo ON WishList.BookId = BookInfo.BookId
+	Where WishList.UserId = @UserId
+End
