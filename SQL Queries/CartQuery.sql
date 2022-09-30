@@ -30,3 +30,15 @@ As
 Begin
 	Delete From CartInfo Where CartId = @CartId and UserId = @UserId
 End
+
+---------- Stored Procedure For Upadating The Cart ----------
+Create Procedure spUpdateCart
+(
+@CartId int,
+@UserId int,
+@BookQuantity int
+)
+As
+Begin
+	Update CartInfo Set BookQuantity = @BookQuantity Where CartId=@CartId and UserId=@UserId
+End

@@ -64,5 +64,29 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpPost("UpdateCart")]
+        public ActionResult UpdateCart(CartUpdateModel cartUpdateModel)
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = cartBL.UpdateCart(UserID, cartUpdateModel);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, Message = "Cart Updated Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, Message = "Cart Could Not Be Updated" });
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

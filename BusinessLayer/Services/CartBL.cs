@@ -38,5 +38,17 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public string UpdateCart(int UserId, CartUpdateModel cartUpdateModel)
+        {
+            try
+            {
+                return cartRL.UpdateCart(UserId, cartUpdateModel);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

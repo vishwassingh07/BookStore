@@ -81,5 +81,37 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public string UpdateCart(int UserId, CartUpdateModel cartUpdateModel)
+        {
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("spUpdateCart", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@CartId", cartUpdateModel.CartId);
+                    command.Parameters.AddWithValue("@UserId", UserId);
+                    command.Parameters.AddWithValue("@BookQuantity", cartUpdateModel.BookQuantity);
+
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+                    if (result != 0)
+                    {
+                        return "Succsfully Updated The Cart";
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
