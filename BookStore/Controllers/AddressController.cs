@@ -89,5 +89,29 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpGet("RetrieveAddress")]
+        public ActionResult GetAddress()
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = addressBL.RetrieveAddress(UserID);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, Message = "Address Successfully Retrieved", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, Message = "Address Could Not Be Retrieved" });
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

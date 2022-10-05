@@ -61,3 +61,15 @@ Begin
 	Update AddressInfo Set Address = @Address, City = @City,State = @State, AddressTypeId = @AddressTypeId
 	Where AddressId = @AddressId and UserId = @UserId
 End
+
+------------- Stored Procedure For Retrieving Address ------------
+Create Procedure spRetrieveAddress
+(
+@UserId int
+)
+As
+Begin
+	Select AddressInfo.AddressId, AddressInfo.Address, AddressInfo.City, AddressInfo.State,
+	UserInfo.UserId, UserInfo.FullName, UserInfo.MobileNumber
+	From AddressInfo Inner Join UserInfo ON AddressInfo.UserId = UserInfo.UserId
+End

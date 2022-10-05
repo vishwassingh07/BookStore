@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interfaces
         public string AddAddress(int UserId, AddressPostModel addressModel);
         public string DeleteAddress(int UserId, int AddressId);
         public string UpdateAddress(int UserId, AddressPostModel addressModel);
+        public List<AddressRetrieveModel> RetrieveAddress(int UserId);
     }
 }

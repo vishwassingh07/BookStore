@@ -115,5 +115,43 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public List<AddressRetrieveModel> RetrieveAddress(int UserId)
+        {
+            List<AddressRetrieveModel> addressList = new List<AddressRetrieveModel>();
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spRetrieveAddress", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@UserId", UserId);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        AddressRetrieveModel retrieveModel = new AddressRetrieveModel();
+                        retrieveModel.AddressId = reader["AddressId"] == DBNull.Value ? default : reader.GetInt32("AddressId");
+                        retrieveModel.UserId = reader["UserId"] == DBNull.Value ? default : reader.GetInt32("UserId");
+                        retrieveModel.FullName = reader["FullName"] == DBNull.Value ? default : reader.GetString("FullName");
+                        retrieveModel.MobileNumber = reader["MobileNumber"] == DBNull.Value ? default : reader.GetInt64("MobileNumber");
+                        retrieveModel.Address = reader["Address"] == DBNull.Value ? default : reader.GetString("Address");
+                        retrieveModel.City = reader["City"] == DBNull.Value ? default : reader.GetString("City");
+                        retrieveModel.State = reader["State"] == DBNull.Value ? default : reader.GetString("State");
+                        addressList.Add(retrieveModel);
+                    }
+                    return addressList;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }

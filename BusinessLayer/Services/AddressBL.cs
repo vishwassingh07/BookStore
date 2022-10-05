@@ -50,5 +50,17 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public List<AddressRetrieveModel> RetrieveAddress(int UserId)
+        {
+            try
+            {
+                return addressRL.RetrieveAddress(UserId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
