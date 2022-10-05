@@ -26,5 +26,17 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public string DeleteAddress(int UserId, int AddressId)
+        {
+            try
+            {
+                return addressRL.DeleteAddress(UserId, AddressId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

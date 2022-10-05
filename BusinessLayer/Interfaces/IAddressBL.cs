@@ -8,5 +8,6 @@ namespace BusinessLayer.Interfaces
     public interface IAddressBL
     {
         public string AddAddress(int UserId, AddressPostModel addressModel);
+        public string DeleteAddress(int UserId, int AddressId);
     }
 }

@@ -41,5 +41,29 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [Authorize]
+        [HttpDelete("DeleteAddress")]
+        public ActionResult DeleteAddress(int AddressId)
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = addressBL.DeleteAddress(UserID, AddressId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, Message = "Address Successfully Deleted", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, Message = "Address Could Not Be Deleted" });
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

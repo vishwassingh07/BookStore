@@ -34,3 +34,14 @@ Begin
 End
 
 Select * From AddressInfo
+
+------------- Stored Procedure For Deleting Address -----------
+Create Procedure spDeleteAddress
+(
+@UserId int,
+@AddressId int
+)
+As
+Begin
+	Delete From AddressInfo Where UserId = @UserId and AddressId = @AddressId
+End
