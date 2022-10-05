@@ -45,3 +45,19 @@ As
 Begin
 	Delete From AddressInfo Where UserId = @UserId and AddressId = @AddressId
 End
+
+------------ Stored Procedure For Updating Address ------------
+Create Procedure spUpdateAddress
+(
+@AddressId int,
+@UserId int,
+@Address varchar(max),
+@City varchar(max),
+@State varchar(max),
+@AddressTypeId int
+)
+As
+Begin
+	Update AddressInfo Set Address = @Address, City = @City,State = @State, AddressTypeId = @AddressTypeId
+	Where AddressId = @AddressId and UserId = @UserId
+End
