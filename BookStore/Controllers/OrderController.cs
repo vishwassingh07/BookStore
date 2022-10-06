@@ -39,5 +39,28 @@ namespace BookStore.Controllers
                 throw;
             }
         }
+        [HttpGet("Retrieve")]
+        public ActionResult RetrieveOrder()
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = orderBL.RetrieveOrder(UserID);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, Message = "Order Details Fetched Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, Message = "Order Details Could Not Be Fetched" });
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

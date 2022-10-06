@@ -26,5 +26,17 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public List<OrderRetrieveModel> RetrieveOrder(int UserId)
+        {
+            try
+            {
+                return orderRL.RetrieveOrder(UserId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

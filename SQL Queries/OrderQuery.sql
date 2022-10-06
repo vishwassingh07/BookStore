@@ -51,3 +51,18 @@ Begin
 		End
 End;
 Select * From OrderInfo
+
+---------- Stored Procedure For Retrieving Order ----------
+Create Procedure spRetrieveOrder
+(
+@UserId int
+)
+As
+Begin
+	Select O.OrderId, O.UserId, O.AddressId, B.BookId,
+	O.TotalPrice, O.OrderQuantity, O.OrderDate,
+	B.BookName, B.Author, B.BookImage
+	From BookInfo B
+	Inner Join OrderInfo O ON O.BookId = B.BookId
+	Where O.UserId = @UserId
+End
