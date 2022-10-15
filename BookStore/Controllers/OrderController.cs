@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.OrderModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -11,9 +12,11 @@ namespace BookStore.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderBL orderBL;
-        public OrderController(IOrderBL orderBL)
+        private readonly ILogger<OrderController> _logger;
+        public OrderController(IOrderBL orderBL, ILogger<OrderController> Logger)
         {
             this.orderBL = orderBL;
+            this._logger = Logger;
         }
         [HttpPost("Add")]
         public ActionResult AddOrder(OrderPostModel orderModel)
@@ -33,9 +36,9 @@ namespace BookStore.Controllers
 
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-
+                _logger.LogError(ex.ToString());
                 throw;
             }
         }
