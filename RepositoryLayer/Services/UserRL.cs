@@ -112,6 +112,50 @@ namespace RepositoryLayer.Services
 
             return tokenHandler.WriteToken(token);
         }
+        public static string EncryptPassword(string Password)
+        {
+            try
+            {
+                if(Password == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    byte[] b = Encoding.ASCII.GetBytes(Password);
+                    string encrypted = Convert.ToBase64String(b);
+                    return encrypted;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public static string DecryptPassword(string EncryptedPassword)
+        {
+            byte[] b;
+            string decrypted;
+            try
+            {
+                if(EncryptedPassword == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    b = Convert.FromBase64String(EncryptedPassword);
+                    decrypted = Encoding.ASCII.GetString(b);
+                    return decrypted;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public string ForgotPassword(string Email)
         {
             try
