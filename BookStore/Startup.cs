@@ -71,7 +71,10 @@ namespace BookStore
             services.AddTransient<IFeedBackBL, FeedBackBL>();
             services.AddTransient<IFeedBackRL, FeedBackRL>();
 
-
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+            });
             services.AddSwaggerGen();
             services.AddSwaggerGen(opt =>
             {

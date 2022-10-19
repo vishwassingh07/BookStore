@@ -1,9 +1,14 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.OrderModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
@@ -13,10 +18,12 @@ namespace BookStore.Controllers
     {
         private readonly IOrderBL orderBL;
         private readonly ILogger<OrderController> _logger;
-        public OrderController(IOrderBL orderBL, ILogger<OrderController> Logger)
+        private readonly IDistributedCache distributedCache;
+        public OrderController(IOrderBL orderBL, ILogger<OrderController> Logger, IDistributedCache distributedCache)
         {
             this.orderBL = orderBL;
             this._logger = Logger;
+            this.distributedCache = distributedCache;
         }
         [HttpPost("Add")]
         public ActionResult AddOrder(OrderPostModel orderModel)
@@ -64,6 +71,33 @@ namespace BookStore.Controllers
 
                 throw;
             }
+        }
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllOrdersUsingRedisCache()
+        {
+            var cacheKey = "OrderList";
+            string serializedOrderList = String.Empty;
+            var orderList = new List<OrderRetrieveModel>();
+            var redisOrderList = await distributedCache.GetAsync(cacheKey);
+            if (redisOrderList != null)
+            {
+                serializedOrderList = Encoding.UTF8.GetString(redisOrderList);
+                orderList = JsonConvert.DeserializeObject<List<OrderRetrieveModel>>(serializedOrderList);
+            }
+            else
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                orderList = orderBL.RetrieveOrder(UserID);
+
+                serializedOrderList = JsonConvert.SerializeObject(orderList);
+                redisOrderList = Encoding.UTF8.GetBytes(serializedOrderList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+
+                await distributedCache.SetAsync(cacheKey, redisOrderList, options);
+            }
+            return Ok(orderList);
         }
     }
 }

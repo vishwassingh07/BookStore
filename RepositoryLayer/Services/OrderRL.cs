@@ -61,7 +61,7 @@ namespace RepositoryLayer.Services
                     connection.Open();
                     SqlCommand command = new SqlCommand("spRetrieveOrder", connection);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@UserId", UserId);
+                     command.Parameters.AddWithValue("@UserId", UserId);
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -71,7 +71,7 @@ namespace RepositoryLayer.Services
                         retrieveModel.BookId = reader["BookId"] == DBNull.Value ? default : reader.GetInt32("BookId");
                         retrieveModel.AddressId = reader["AddressId"] == DBNull.Value ? default : reader.GetInt32("AddressId");
                         retrieveModel.TotalPrice = reader["TotalPrice"] == DBNull.Value ? default : reader.GetDecimal("TotalPrice");
-                        retrieveModel.Quantity = reader["OrderQuantity"] == DBNull.Value ? default : reader.GetInt32("OrderQuantity");
+                         retrieveModel.Quantity = reader["OrderQuantity"] == DBNull.Value ? default : reader.GetInt32("OrderQuantity");
                         retrieveModel.OrderDate = reader["OrderDate"] == DBNull.Value ? default : reader.GetDateTime("OrderDate");
                         retrieveModel.BookName = reader["BookName"] == DBNull.Value ? default : reader.GetString("BookName");
                         retrieveModel.Author = reader["Author"] == DBNull.Value ? default : reader.GetString("Author");
